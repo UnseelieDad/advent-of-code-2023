@@ -34,57 +34,8 @@ fn part1(input: &str) -> i32 {
         })
         .collect::<BTreeMap<(usize, usize), Value>>();
 
-    let mut numbers: Vec<Vec<((usize, usize), u32)>> = vec![];
-
-    for ((y, x), value) in map.iter() {
-        if let Value::Number(num) = value {
-            match numbers.iter().last() {
-                Some(v) => {
-                    let last_num = v.iter().last();
-                    match last_num {
-                        Some(((last_num_x, _), _)) => {
-                            if last_num_x + 1 == *x {
-                                let last = numbers.iter_mut().last().expect("Should exist");
-                                last.push(((*x, *y), *num));
-                            } else {
-                                numbers.push(vec![((*x, *y), *num)]);
-                            }
-                        }
-                        None => unimplemented!("Shouldn't happen"),
-                    }
-                }
-                None => numbers.push(vec![((*x, *y), *num)]),
-            }
-        }
-    }
-
-    for num_list in numbers {
-        let postions = [
-            (1, 0),
-            (1, -1),
-            (1, 1),
-            (0, 1),
-            (0, -1),
-            (-1, -1),
-            (-1, 1),
-            (-1, 0),
-        ];
-        let num_positions: Vec<(i32, i32)> = num_list
-            .iter()
-            .map(|((y, x), _)| (*x as i32, *y as i32))
-            .collect();
-        let pos_to_check: Vec<(i32, i32)> = num_list
-            .iter()
-            .flat_map(|(pos, _)| {
-                postions.iter().map(|outer_pos| {
-                    // outer_pos.x + pos.x, outer_pos.y + pos.y
-                    (outer_pos.0 + pos.1 as i32, outer_pos.1 + pos.0 as i32)
-                })
-            })
-            .unique()
-            .filter(|num| !num_positions.contains(num))
-            .collect();
-    }
+    // Try this again, tracking the coordinates of each thing in something like a map
+    // How do you keep the digits combined?
 
     return 0;
 }
